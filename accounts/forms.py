@@ -10,4 +10,4 @@ class CustomUserCreationForm(UserCreationForm):
 class CustomUserChangeForm(UserChangeForm):
   class Meta:
     model = models.CustomUser
-    fields = ("username", "email", "profile_image")
+    fields = ("username", "first_name", "last_name", "email", "profile_image")

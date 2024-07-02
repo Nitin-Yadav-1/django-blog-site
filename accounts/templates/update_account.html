@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p><a href="{% url 'home' %}">Home</a></p>
+<p><a href="{% url 'profile' user.id %}">{{ user.username }}</a></p>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Update</button>
+</form>
+{% endblock %}

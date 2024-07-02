@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views.decorators.http import require_http_methods, require_GET
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
@@ -31,3 +32,18 @@ def deleteAccount(request):
   user = request.user
   user.delete()
   return redirect('home')
+
+
+@require_http_methods(['GET', 'POST'])
+@login_required
+def updateAccount(request):
+  if request.method == 'POST':
+    form = forms.CustomUserChangeForm(request.POST, request.FILES, instance=request.user)
+    if form.is_valid():
+      form.save()
+      return redirect(
+        reverse('profile', args = (request.user.id,))
+      )
+  else:
+    form = forms.CustomUserChangeForm(instance=request.user)
+  return render(request, 'update_account.html', {'form' : form})

@@ -11,7 +11,7 @@
 <p>Email : {{ request_user.email }}</p>
 
 {% if user.id == request_user.id %}
-<p><a href="#">Update</a></p>
+<p><a href="{% url 'update-account' %}">Update</a></p>
 <p><a href="{% url 'delete-account' %}">Delete Account</a></p>
 {% endif %}
 
