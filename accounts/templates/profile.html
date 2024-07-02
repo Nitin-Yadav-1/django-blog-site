@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p><a href="{% url 'home' %}">Home</a></p>
+
+{% load static %}
+<h1>{{ request_user.username }}</h1>
+<img src="{% get_media_prefix  %}{{ request_user.profile_image }}" alt="profile image">
+<p>First Name : {{ request_user.first_name }}</p>
+<p>Last Name : {{ request_user.last_name }}</p>
+<p>Email : {{ request_user.email }}</p>
+
+{% if user.id == request_user.id %}
+<p><a href="#">Update</a></p>
+<p><a href="#">Delete Account</a></p>
+{% endif %}
+
+{% endblock %}

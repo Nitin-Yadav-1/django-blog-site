@@ -5,7 +5,7 @@
 <h1>The Blog Application</h1>
 
 {% if user.is_authenticated %}
-  <p>Welcome {{ user.username }}</p>
+  <p>Welcome <a href="{% url 'profile' user.id %}">{{ user.username }}</a></p>
   <form action="{% url 'logout' %}" method="post">
     {% csrf_token %}
     <button type="submit">logout</button>
