@@ -1,19 +1,18 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
+from django_resized import ResizedImageField
 
 class CustomUser(AbstractUser):
-  PROFILE_IMAGE_BIG_SIZE = (300,300)
-  PROFILE_IMAGE_SMALL_SIZE = (50,50)
+  PROFILE_IMAGE_SIZE = (300,300)
 
-  profile_image_big = models.ImageField(
+  profile_image = ResizedImageField(
     upload_to='profile_image/',
-    default='profile_image/default_big.jpeg',
-  )
-  profile_image_small = models.ImageField(
-    upload_to='profile_image/',
-    default='profile_image/default_small.jpeg'
+    default='profile_image/default.jpeg',
+    blank=True,
+    size=PROFILE_IMAGE_SIZE,
+    keep_meta=False
   )
 
   def __str__(self):
     return self.username
+  
