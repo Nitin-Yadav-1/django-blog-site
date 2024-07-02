@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods, require_GET
+from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from . import forms, models
 
@@ -23,3 +24,10 @@ def profile(request, id):
     raise Http404('User does not exist.')
   return render(request, 'profile.html', {"request_user" : user})
 
+
+@require_GET
+@login_required
+def deleteAccount(request):
+  user = request.user
+  user.delete()
+  return redirect('home')

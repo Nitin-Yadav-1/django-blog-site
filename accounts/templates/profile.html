@@ -12,7 +12,7 @@
 
 {% if user.id == request_user.id %}
 <p><a href="#">Update</a></p>
-<p><a href="#">Delete Account</a></p>
+<p><a href="{% url 'delete-account' %}">Delete Account</a></p>
 {% endif %}
 
 {% endblock %}
