@@ -7,7 +7,14 @@
     <a class="navbar-brand" href="{% url 'home' %}">TheBlogSite</a>
 
     <div class="collapse navbar-collapse" id="navbarExample">
-      <ul class="navbar-nav me-auto mb-0"></ul>
+      <ul class="navbar-nav me-auto mb-0">
+        <li class="me-2 mb-2 mb-lg-0">
+          <a class="nav-link active btn" href="{% url 'all-blogs' %}">Blogs</a>
+        </li>
+        <li class="me-2 mb-2 mb-lg-0">
+          <a class="nav-link active btn btn-success" href="{% url 'create-blog' %}">Write</a>
+        </li>
+      </ul>
       <div class="d-flex align-items-center flex-column flex-lg-row">
         <form class="me-2 mb-2 mb-lg-0">
           <input type="text" class="form-control form-control-sm" placeholder="Search Blogs" />

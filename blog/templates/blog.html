@@ -2,42 +2,48 @@
 
 {% block content %}
 
-<p><a href="{% url 'all-blogs' %}">All blogs</a></p>
-
-<div style="border: 1px solid black;">
-  <h1>{{ blog.title }}</h1>
-  <p>Created At : {{ blog.created_at }}</p>
+<div class="container">
+  <h1 class="text-center">{{ blog.title }}</h1>
+  <p class="text-center">Created On : {{ blog.created_at }}</p>
   
   {% if blog.created_at != blog.last_updated_at %}
-  <p>Last Updated at : {{ blog.last_updated_at }}</p>
+  <p class="text-center">Last Updated On : {{ blog.last_updated_at }}</p>
   {% endif %}
+  
+  <p class="text-center">Author : <a href="{% url 'profile' blog.author.id %}">{{ blog.author.username }}</a></p>
   
   {% if blog.author == user %}
-    <p><a href="{% url 'update-blog' blog.id %}">Update</a></p>
-    <p><a href="{% url 'delete-blog' blog.id %}">Delete</a></p>
+  <p class="text-center">
+    <a class="btn btn-warning" href="{% url 'update-blog' blog.id %}">Update</a>
+    <a class="btn btn-danger" href="{% url 'delete-blog' blog.id %}">Delete</a>
+  </p>
   {% endif %}
   
-  <p>Author : <a href="{% url 'profile' blog.author.id %}">{{ blog.author.username }}</a></p>
-  <p style="border: 1px solid black;">{{ blog.content }}</p>
+  <div class="container">{{ blog.content }}</div>
 </div>
 
-<div>
+<div class="container mt-5">
   <h4>Comments : </h4>
   {% if user.is_authenticated %}
+    {% load crispy_forms_tags %}
     <form action="{% url 'create-comment' blog.id %}" method="post">
       {% csrf_token %}
-      {{ comment_form.as_p }}
-      <button type="submit">Post</button>
+      {{ comment_form|crispy }}
+      <button class="btn btn-primary" type="submit">Post</button>
     </form>
+    <hr>
   {% endif %}
 
   {% for comment in blog.comment_set.all %}
-    <div style="border: 1px solid black;">
-      <p><a href="{% url 'profile' comment.user.id %}">{{ comment.user.username }}</a></p>
+    <div class="container mb-2">
+      <p>
+        <a href="{% url 'profile' comment.user.id %}">{{ comment.user.username }}</a>
+        {% if comment.user == user %}
+        <a class="btn btn-danger" href="{% url 'delete-comment' comment.id %}">X</a>
+        {% endif %}
+      </p>
       <p>{{ comment.content }}</p>
-      {% if comment.user == user %}
-      <p><a href="{% url 'delete-comment' comment.id %}">Delete Comment</a></p>
-      {% endif %}
+      <hr>
     </div>
   {% empty %}
     <p>No comments.</p>
