@@ -54,3 +54,16 @@ def updateBlog(request, id):
     form = forms.BlogUpdationForm(instance=blog)
   
   return render(request, 'update_blog.html', {'form' : form})
+
+
+@require_GET
+@login_required
+def deleteBlog(request, id):
+  try:
+    blog = models.Blog.objects.get(id=id)
+  except models.Blog.DoesNotExist:
+    raise Http404('Blog does not exist.')
+  
+  blog.delete()
+  return redirect('all-blogs')
+

@@ -14,7 +14,7 @@
   
   {% if blog.author == user %}
     <p><a href="{% url 'update-blog' blog.id %}">Update</a></p>
-    <p><a href="#">Delete</a></p>
+    <p><a href="{% url 'delete-blog' blog.id %}">Delete</a></p>
   {% endif %}
   
   <p>Author : <a href="{% url 'profile' blog.author.id %}">{{ blog.author.username }}</a></p>
