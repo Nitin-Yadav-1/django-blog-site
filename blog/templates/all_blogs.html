@@ -5,7 +5,7 @@
 
 {% for blog in blogs %}
   <div style="border: 2px solid black;">
-    <h4><a href="#">{{ blog.title }}</a></h4>
+    <h4><a href="{% url 'blog' blog.id %}">{{ blog.title }}</a></h4>
     <p>Created At : {{ blog.created_at }}</p>
     <p>Author : <a href="{% url 'profile' blog.author.id %}">{{ blog.author.username }}</a></p>
     <p>{{ blog.content }}</p>

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<p><a href="{% url 'all-blogs' %}">All blogs</a></p>
+
+<div>
+  <h1>{{ blog.title }}</h1>
+  <p>Created At : {{ blog.created_at }}</p>
+  {% if blog.created_at != blog.last_updated_at %}
+  <p>Last Updated at : {{ blog.last_updated_at }}</p>
+  {% endif %}
+  <p>Author : <a href="{% url 'profile' blog.author.id %}">{{ blog.author.username }}</a></p>
+  <p>{{ blog.content }}</p>
+</div>
+
+<div>
+  <h4>Comments : </h4>
+  {% for comment in blog.comment_set.all %}
+    <div style="border: 1px solid black;">
+      <p><a href="{% url 'profile' comment.user.id %}">{{ comment.user.username }}</a></p>
+      <p>{{ comment.content }}</p>
+    </div>
+  {% empty %}
+    <p>No comments.</p>
+  {% endfor %}
+</div>
+
+{% endblock %}
