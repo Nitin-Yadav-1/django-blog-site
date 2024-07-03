@@ -2,6 +2,8 @@
 
 {% block content %}
 
+<p><a href="{% url 'home' %}">Home</a></p>
+<p><a href="{% url 'create-blog' %}">Create Blog</a></p>
 
 {% for blog in blogs %}
   <div style="border: 2px solid black;">
