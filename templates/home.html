@@ -2,18 +2,8 @@
 
 {% block content %}
 
-<h1>The Blog Application</h1>
-
-{% if user.is_authenticated %}
-  <p>Welcome <a href="{% url 'profile' user.id %}">{{ user.username }}</a></p>
-  <form action="{% url 'logout' %}" method="post">
-    {% csrf_token %}
-    <button type="submit">logout</button>
-  </form>
-  {% else %}
-  <a href="{% url 'login' %}">Login</a>
-  <p><a href="{% url 'signup' %}">Sign Up</a></p>
-  {% endif %}
-<a href="{% url 'all-blogs' %}">View blogs</a>
+<div class="container text-center">
+  <h1>The Blog Site</h1>
+</div>
 
 {% endblock %}

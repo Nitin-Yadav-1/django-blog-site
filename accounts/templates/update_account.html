@@ -1,12 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<p><a href="{% url 'home' %}">Home</a></p>
-<p><a href="{% url 'profile' user.id %}">{{ user.username }}</a></p>
+{% load crispy_forms_tags %}
 
-<form method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Update</button>
-</form>
+<div class="container">
+  <h1 class="text-center">Update Account</h1>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <p class="text-center">
+      <button class="btn btn-warning" type="submit">Update</button>
+    </p>
+  </form>
+</div>
+
 {% endblock %}

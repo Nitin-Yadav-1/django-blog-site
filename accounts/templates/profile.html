@@ -1,18 +1,35 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<p><a href="{% url 'home' %}">Home</a></p>
 
 {% load static %}
-<h1>{{ request_user.username }}</h1>
-<img src="{% get_media_prefix  %}{{ request_user.profile_image }}" alt="profile image">
-<p>First Name : {{ request_user.first_name }}</p>
-<p>Last Name : {{ request_user.last_name }}</p>
-<p>Email : {{ request_user.email }}</p>
-
-{% if user.id == request_user.id %}
-<p><a href="{% url 'update-account' %}">Update</a></p>
-<p><a href="{% url 'delete-account' %}">Delete Account</a></p>
-{% endif %}
+<div class="mt-3" style="display: flex; justify-content: center; align-items: center;">
+  <div class="card" style="border: None;">
+    <img class="card-img-top" src="{% get_media_prefix  %}{{ request_user.profile_image }}" alt="profile image">
+    <h1 class="card-title text-center">{{ request_user.username }}</h1>
+    
+    <div class="mb-3">
+      <label class="form-label" for="first-name">First Name</label>
+      <input class="form-control" type="text" name="first-name" value="{{ request_user.first_name }}" disabled>
+    </div>
+      
+    <div class="mb-3">
+      <label class="form-label" for="last-name">Last Name</label>
+      <input class="form-control" type="text" name="last-name " value="{{ request_user.last_name }}" disabled>
+    </div>
+      
+    <div class="mb-3">
+      <label class="form-label" for="email">Email</label>
+      <input class="form-control" type="text" name="email" value="{{ request_user.email }}" disabled>
+    </div>
+      
+    {% if user.id == request_user.id %}
+    <p class="form-control">
+      <a class="btn btn-warning" href="{% url 'update-account' %}">Update Account</a>
+      <a class="btn btn-danger" href="{% url 'delete-account' %}">Delete Account</a>
+    </p>
+    {% endif %}
+  </div>
+</div>
 
 {% endblock %}
