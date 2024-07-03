@@ -18,7 +18,8 @@ def blog(request, id):
     blog = models.Blog.objects.get(id=id)
   except models.Blog.DoesNotExist:
     raise Http404("This blog does not exist")
-  return render(request, 'blog.html', {'blog' : blog})
+  comment_form = forms.CommentCreationForm()
+  return render(request, 'blog.html', {'blog' : blog, 'comment_form' : comment_form})
 
 
 @require_http_methods(['GET', 'POST'])
@@ -67,3 +68,27 @@ def deleteBlog(request, id):
   blog.delete()
   return redirect('all-blogs')
 
+
+@require_http_methods(['POST'])
+@login_required
+def createComment(request, blog_id):
+  form = forms.CommentCreationForm(request.POST)
+  if form.is_valid():
+    models.Comment.objects.create(
+      user=request.user,
+      blog_id=blog_id,
+      content=form.cleaned_data.get('content')
+    )
+  return redirect(reverse('blog', args=(blog_id,)))
+
+
+@require_GET
+@login_required
+def deleteComment(request, id):
+  try:
+    comment = models.Comment.objects.get(id=id)
+  except models.Comment.DoesNotExist:
+    raise Http404('comment does not exist')
+  blog_id = comment.blog.id
+  comment.delete()
+  return redirect(reverse("blog", args=(blog_id,)))
