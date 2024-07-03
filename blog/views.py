@@ -36,3 +36,21 @@ def createBlog(request):
     form = forms.BlogCreationForm()
   return render(request, 'create_blog.html', {'form' : form})
 
+
+@require_http_methods(['GET', 'POST'])
+@login_required
+def updateBlog(request, id):
+  try:
+    blog = models.Blog.objects.get(id=id)
+  except models.Blog.DoesNotExist:
+    raise Http404('Blog does not exist.')
+  
+  if request.method == 'POST':
+    form = forms.BlogUpdationForm(request.POST, instance=blog)
+    if form.is_valid():
+      form.save()
+      return redirect(reverse('blog', args=(blog.id,)))
+  else:
+    form = forms.BlogUpdationForm(instance=blog)
+  
+  return render(request, 'update_blog.html', {'form' : form})

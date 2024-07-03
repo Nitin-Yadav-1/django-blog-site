@@ -8,3 +8,8 @@ class BlogCreationForm(ModelForm):
     model = models.Blog
     fields = ('title', 'content')
 
+
+class BlogUpdationForm(ModelForm):
+  class Meta:
+    model = models.Blog
+    fields = ('title', 'content')
