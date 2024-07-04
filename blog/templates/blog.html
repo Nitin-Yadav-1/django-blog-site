@@ -34,9 +34,14 @@
     <hr>
   {% endif %}
 
+  {% load static %}
   {% for comment in blog.comment_set.all %}
     <div class="container mb-2">
       <p>
+        <img src="{% get_media_prefix %}{{ comment.user.profile_image }}" 
+        alt="Proflie image of the commenting user"
+        width="30" height="30"
+        >
         <a href="{% url 'profile' comment.user.id %}">{{ comment.user.username }}</a>
         {% if comment.user == user %}
         <a class="btn btn-danger" href="{% url 'delete-comment' comment.id %}">X</a>
