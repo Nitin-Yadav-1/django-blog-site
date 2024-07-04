@@ -3,13 +3,16 @@ from django.urls import reverse
 from django.views.decorators.http import require_GET, require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
+from django.core.paginator import Paginator
 from . import models, forms
 
 
 @require_GET
 def allBlogs(request):
   blogs = models.Blog.objects.all()
-  return render(request, 'all_blogs.html', {'blogs' : blogs})
+  paginator = Paginator(blogs, 10)
+  page_obj = paginator.get_page(request.GET.get('page'))
+  return render(request, 'all_blogs.html', {'page_obj': page_obj})
 
 
 @require_GET
