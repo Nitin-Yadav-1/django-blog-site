@@ -92,3 +92,20 @@ def deleteComment(request, id):
   blog_id = comment.blog.id
   comment.delete()
   return redirect(reverse("blog", args=(blog_id,)))
+
+
+@require_http_methods(['POST'])
+@login_required
+def toggleBlogLike(request, blog_id):
+  try:
+    blog = models.Blog.objects.get(id=blog_id)
+  except models.Blog.DoesNotExist:
+    raise Http404("Blog does not exist.")
+  
+  currUserDoesLike = len(blog.likes.filter(id=request.user.id)) > 0
+  if currUserDoesLike:
+    blog.likes.remove(request.user)
+  else:
+    blog.likes.add(request.user)
+
+  return redirect(reverse('blog', args=(blog_id,)))
