@@ -23,7 +23,8 @@ def profile(request, id):
   user = models.CustomUser.objects.get(id=id)
   if user is None:
     raise Http404('User does not exist.')
-  return render(request, 'profile.html', {"request_user" : user})
+  blogsByUser = user.blog_set.all()
+  return render(request, 'profile.html', {"request_user" : user, 'blogsByUser' : blogsByUser})
 
 
 @require_GET
