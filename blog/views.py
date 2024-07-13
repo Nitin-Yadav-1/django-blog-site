@@ -4,12 +4,21 @@ from django.views.decorators.http import require_GET, require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.core.paginator import Paginator
+from django.db.models import Q
 from . import models, forms
 
 
 @require_GET
 def allBlogs(request):
-  blogs = models.Blog.objects.all()
+  searchQuery = request.GET.get('search')
+  if searchQuery is None:
+    blogs = models.Blog.objects.all()
+  else:
+    filters = (Q(title__icontains=searchQuery) 
+                | 
+              Q(content__icontains=searchQuery)
+    )
+    blogs = models.Blog.objects.filter(filters)
   paginator = Paginator(blogs, 10)
   page_obj = paginator.get_page(request.GET.get('page'))
   return render(request, 'all_blogs.html', {'page_obj': page_obj})
