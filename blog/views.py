@@ -22,7 +22,15 @@ def blog(request, id):
   except models.Blog.DoesNotExist:
     raise Http404("This blog does not exist")
   comment_form = forms.CommentCreationForm()
-  return render(request, 'blog.html', {'blog' : blog, 'comment_form' : comment_form})
+  currUserLikesBlog = ((request.user.is_authenticated) 
+                          and 
+                      (request.user.liked_blogs_set.filter(id=blog.id).count() == 1))
+  context = {
+    'blog' : blog, 
+    'comment_form' : comment_form,
+    'currUserLikesBlog' : currUserLikesBlog,
+  }
+  return render(request, 'blog.html', context=context)
 
 
 @require_http_methods(['GET', 'POST'])
